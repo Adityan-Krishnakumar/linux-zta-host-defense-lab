@@ -1,0 +1,25 @@
+Rule 1: Secure Shell Access Protocol (TCP Port 22)
+
+Ingress access is strictly confined and authorized exclusively for the designated
+
+administrative client IP address (192.168.29.228/32). Accurate modification of
+
+the source IP address is a critical requisite for successful operational deployment.
+
+-A ufw-user-input -p tcp --dport 22 -s 192.168.29.228 -j ACCEPT
+
+Rule 2: HyperText Transfer Protocol (HTTP) Access (TCP Port 80)
+
+Standard web service traffic is permitted from any originating network source,
+
+provided that an active web server application deployment is in operation.
+
+-A ufw-user-input -p tcp --dport 80 -j ACCEPT
+
+Rule 3: Loopback Interface Traffic Exemption
+
+Internal host communication conducted over the local loopback interface (lo) is
+
+unconditionally granted acceptance to ensure requisite inter-process functionality.
+
+-A ufw-user-input -i lo -j ACCEPT

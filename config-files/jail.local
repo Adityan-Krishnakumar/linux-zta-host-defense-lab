@@ -1,0 +1,74 @@
+Fail2Ban Local Configuration File
+
+This document establishes the operational parameters and monitoring directives,
+
+thereby overriding the default configuration settings.
+
+[DEFAULT]
+
+1. Trusted IP Address Exemption (Administrative Access Assurance)
+
+The ignoreip directive is employed to preclude the prohibition of specified
+
+administrative IP addresses. It is imperative that '192.168.29.228' be
+
+accurately replaced with the authorized client's true IP address.
+
+ignoreip = 127.0.0.1/8 192.168.29.228
+
+2. Ban Duration Parameter
+
+The duration of the IP address prohibition is established at 3600 seconds (one hour),
+
+an appropriate tenure for mitigating standard brute-force vectors.
+
+bantime = 3600
+
+3. Maximum Retries Threshold
+
+The maximum permissible count of failed authentication attempts prior to the
+
+implementation of a proactive ban is stringently set to 3.
+
+maxretry = 3
+
+4. Observation Window Duration
+
+This parameter defines the 600-second (10-minute) interval within which the
+
+stipulated maxretry failure count must be achieved.
+
+findtime = 600
+
+----------------------------------------------------
+
+JAILS: Service Monitoring Directives (Zero Trust Mandate)
+
+----------------------------------------------------
+
+5. Secure Shell Daemon (SSHD) Monitoring
+
+Protection mechanisms are enabled for remote Secure Shell authentication attempts,
+
+which is deemed a critical administration vector.
+
+[sshd]
+enabled = true
+
+Port 22 is the standard transmission control protocol port for SSH.
+
+port    = ssh
+logpath = %(sshd_log)s
+
+6. HTTP Server Monitoring (Contingency Inclusion)
+
+This section remains commented out but serves as a documented contingency for
+
+monitoring web server access logs against high-frequency malicious activity.
+
+#[http-get-dos]
+#enabled = true
+#port    = http,https
+#logpath = %(apache_access_log)s
+#maxretry = 100
+#findtime = 60
